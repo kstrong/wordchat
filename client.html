@@ -9,7 +9,8 @@
 jQuery(function ($) {
 	var myname = '';
 
-	var socket = /*io.connect('http://ec2-204-236-244-195.compute-1.amazonaws.com/');*/io.connect('http://localhost:1337/'); 
+	//var socket = io.connect('http://ec2-204-236-244-195.compute-1.amazonaws.com/'); 
+	var socket = io.connect('http://localhost:1337/'); 
 	socket.on('connect', function() {
 		myname = $('#name').val();
 		socket.emit('join', { name: myname });

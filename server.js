@@ -1,4 +1,11 @@
 
+var redis   = require('redis'),
+    rclient = redis.createClient();
+
+rclient.on('error', function (err) {
+	console.log('Redis error: ' + err);
+});
+
 var PORT = 1337
 var io = require('socket.io').listen(PORT);
 
@@ -8,6 +15,12 @@ var MAX_LEN = 4096;
 
 var names = [];
 var msg_history = [];
+
+rclient.lrange("wordchat.history", "0", "-1", function (err, replies) {
+	replies.forEach(function (reply) {
+		msg_history.unshift(JSON.parse(reply));
+	});
+});
 
 io.sockets.on('connection', function (socket) {
 	socket.emit('history', { msg: msg_history });
@@ -48,6 +61,9 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('msg', function (message) {
 		if (message.msg && message.msg.length <= MAX_LEN) {
+			rclient.lpush('wordchat.history', JSON.stringify(message), function () {
+				rclient.ltrim('wordchat.history', '0', '200');
+			});
 			msg_history.push(message);
 			msg_history = msg_history.slice(-200);
 			io.sockets.emit('chat', message);
@@ -57,3 +73,4 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 });
+
