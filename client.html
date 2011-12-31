@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>wordchat</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="http://localhost:1337/socket.io/socket.io.js" type="text/javascript"></script>
+<script type="text/javascript">
+// http://ec2-204-236-244-195.compute-1.amazonaws.com
+jQuery(function ($) {
+	var myname = '';
+
+	var socket = /*io.connect('http://ec2-204-236-244-195.compute-1.amazonaws.com/');*/io.connect('http://localhost:1337/'); 
+	socket.on('connect', function() {
+		myname = $('#name').val();
+		socket.emit('join', { name: myname });
+	});
+
+	socket.on('history', function (message) {
+		var msgs = message.msg;
+		for (var i = 0; i < msgs.length; i++) {
+			display_msg(msgs[i]);
+		}
+		$('#messages').prop('scrollTop', $('#messages').prop('scrollHeight'));
+	});
+
+	socket.on('names', function (message) {
+		var names = message.names;
+		var namelist = $('#names');
+		namelist.html('');
+		$.each(names, function () {
+			namelist.append(this + '<br/>');
+		});
+	});
+
+	$('#name').change(function () {
+		socket.emit('name change', { oldname: myname, newname: $('#name').val() });
+	});
+
+	socket.on('name change ok', function (message) {
+		myname = message.newname;
+	});
+	socket.on('name taken', function (message) {
+		$('#name').val(myname);
+		// flash error
+		flash_err('Name already taken!');
+	});
+
+	socket.on('chat', function (message) {
+		display_msg(message);
+		$('#messages').stop().animate({ scrollTop: $('#messages').prop('scrollHeight') });
+	});
+	socket.on('stfu', function () { 
+		flash_err('Max Length Exceeded!');
+	});
+
+	var send_msg = function () {
+		var message = $('#msg').val();
+		if (message.length == 0) return;
+		socket.emit('msg', { msg: message, name: myname });
+		$('#msg').val('');
+	};
+
+	$('#send').click(send_msg);
+	$(document).keypress(function (e) {
+		if (e.keyCode == 13) {
+			send_msg();
+		}
+	});
+
+	var display_msg = function (msg) {
+		$('#messages').append($('<b>'+msg.name+':</b> '+msg.msg+'<br />'));
+	};
+
+	var flash_err = (function () {
+		var tid = 0;
+		return function (err) {
+			$('.err').css('display','none').text(err).fadeIn();
+			if (tid) clearTimeout(tid);
+			tid = setTimeout(function () {
+				$('.err').fadeOut();
+			}, 2500);
+		};
+	})();
+});
+</script>
+<style type="text/css">
+#messages {
+	border: 1px solid;
+	overflow: auto;
+	padding: 5px;
+	width: 600px;
+	height: 400px;
+}
+#msg {
+	padding: 3px;
+	width: 530px;
+}
+#msg-wrap { float: left; }
+#users {
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	float: left;
+	width: 200px;
+	height: 410px;
+}
+#users h2 { 
+	border-bottom: 1px solid;
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+#names {
+	height: 370px;
+	line-height: 22px;
+	overflow: auto;
+	padding: 5px;
+}
+.controls {
+	background-color: #AACCDD;
+	padding: 10px 5px;
+	width: 600px;
+}
+.yourname {
+	margin: 0 5px;
+}
+.err {
+	color: red;
+	display: none;
+	margin: 0 0 0 10px;
+}
+</style>
+</head>
+<body>
+<div id="msg-wrap">
+<div id="messages">
+</div>
+<div class="controls">
+<input type="text" id="msg" /> <input id="send" type="submit" value="send" /> 
+</div>
+<div class="controls">
+<span class="yourname">Your Name:</span><input id="name" value="anonymous" />
+<span class="err"></span>
+</div>
+</div>
+<div id="users">
+<h2>Who is here:</h2>
+<div id="names">
+</div>
+</div>
+</body>
+</html>
