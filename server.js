@@ -1,8 +1,7 @@
 
-var redis   = require('redis'),
-    rclient = redis.createClient();
-
-rclient.on('error', function (err) {
+var redis = require('redis').createClient();
+ 
+redis.on('error', function (err) {
 	console.log('Redis error: ' + err);
 });
 
@@ -16,7 +15,7 @@ var MAX_LEN = 4096;
 var names = [];
 var msg_history = [];
 
-rclient.lrange("wordchat.history", "0", "-1", function (err, replies) {
+redis.lrange("wordchat.history", "0", "-1", function (err, replies) {
 	replies.forEach(function (reply) {
 		msg_history.unshift(JSON.parse(reply));
 	});
@@ -61,8 +60,8 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('msg', function (message) {
 		if (message.msg && message.msg.length <= MAX_LEN) {
-			rclient.lpush('wordchat.history', JSON.stringify(message), function () {
-				rclient.ltrim('wordchat.history', '0', '200');
+			redis.lpush('wordchat.history', JSON.stringify(message), function () {
+				redis.ltrim('wordchat.history', '0', '200');
 			});
 			msg_history.push(message);
 			msg_history = msg_history.slice(-200);
