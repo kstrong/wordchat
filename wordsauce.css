@@ -1,0 +1,48 @@
+
+body { font-family: 'Trebuchet MS', Helvetica, sans-serif; }
+
+#ws-page { position: relative; background: #133b19 url(../../../images/bg-sauce-footer.png) center bottom no-repeat; padding: 0 0 155px; min-width: 988px;  }
+#ws-wrapper { margin: 0 auto; width: 988px; position: relative; }
+.ws-left { width: 682px; margin: 0 40px; float: left; display: inline; background: #09150b url(../../../images/bg-orange.png) center top repeat-y; position: relative; }
+	#ws-top { background: #133b19; padding: 15px 0 0; }
+		.menu ul { margin: 0 auto; padding: 15px 0; text-align: center; margin: 0 0; position: relative; }
+		.menu ul li { margin: 0; padding: 0; display: inline; color: #fff; }
+			.menu ul li ul { display: none; }
+			.menu ul li:hover ul { display: block; width: 644px; background-color: rgba(0,0,0,0.5); padding: 15px 5px 45px; z-index: 9999; position: absolute; left: 0; border: 14px solid #f64300; border-bottom: 0; -moz-border-radius-topleft: 15px; -webkit-border-top-left-radius: 15px; border-top-left-radius: 15px; -moz-border-radius-topright: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px;  }
+			.menu ul li ul li { display: inline; margin-right: 15px; }
+			.menu ul li ul li a { font-size: 115%; }
+		.menu ul li a { color: #fff; font-family: 'Arial Black',Arial; font-weight: normal; font-size: 18px; letter-spacing: 0; }
+		.menu ul li a:hover { color: #00ff1a; border-bottom: 4px dotted #f64300; }
+	#ws-top a.logo { text-indent: -9999px; font-size: .1em; background: url(../../../images/wordsauce.png) center top no-repeat; margin: 0 auto; width: 400px; height: 79px; margin: 0 auto; display: block; }
+	#ws-header { background: url(../../../images/bg-sauce-header.png) center bottom no-repeat; padding: 0 0 150px; position: relative; }
+	#ws-content { background: url(../../../images/bg-content-footer.png) center bottom no-repeat; padding: 0 0 55px; /* min-height: 900px; */ }
+		#ws-footer { }
+		#component { color: #c0c0c0; padding: 0 35px; /* min-height: 285px; */ }
+.ws-right { width: 226px; padding: 184px 0 0; float: right; display: inline; }
+.ws-right div.moduletable { background: url(../../../images/bg-rmod-top.png) center top no-repeat; padding: 109px 0 0; }
+	.ws-right h3 { color: #133b19; }
+.ws-right div.moduletable .m1 { background: url(../../../images/bg-rmod-bottom.png) center bottom no-repeat; padding: 0 0 105px; }
+.ws-right div.moduletable .m3 { background: #09150b; border-right: 1px solid #00ff1a; padding: 15px; color: #c0c0c0; }
+
+.ws-right .kitty { position: absolute; bottom: 0; }
+.ws-right .duxfly .m1 { margin: 0 0; }
+.ws-right .duxfly .m3 { position: relative; min-height: 113px; }
+.ws-right .duxfly img { position: absolute; right: -20px; }
+
+.ws-right .loginmod { background: #09150b; padding: 15px; color: #133b19; border: 1px solid #00FF1A; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.ws-right .loginmod span a { font-size: 13px; }
+span.default span.yoo-login span.login { width: auto; margin: 0; }
+
+#ws-message { color: #fff; background: rgba(13,26,13,.65); padding: 13px 130 13px 65px; position: absolute; top: 150px; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; }
+#ws-message dl,#ws-message dt,#ws-message dd, #ws-message ul, #ws-message ul li { margin: 0; padding: 0; list-style: none; }
+	
+.blacksauce { text-align: center; background: #000; -webkit-border-radius: 13px; -moz-border-radius: 13px; border-radius: 13px; padding: 150px 50px 50px; margin: -200px 0 0; }	
+	.likesauce { }
+
+.sauce-bottom { background: #111; padding: 13px; -webkit-border-radius: 13px; -moz-border-radius: 13px; border-radius: 13px; margin: -26px 0 0; }
+.sauce-bottom p.onefield input { padding: 7px; border: 0; background: #000; color: #00ff1a; width: 210px; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; }
+.sauce-bottom input.button { padding: 7px; background: #333; color: #999; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; border: 1px solid #000; }
+.sauce-bottom input.button:hover { background: #222; color: #ccc; }
+	
+.clr { clear: both; display: block; }
+.front { z-index: 1; }
